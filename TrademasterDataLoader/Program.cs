@@ -12,7 +12,7 @@ using (var functionalityRepository = new FunctionalityRepository())
 }
 
 List<BaseJson> deserialized;
-using (StreamReader r = new StreamReader("C:\\Users\\atma_\\source\\repos\\PoETrademasterAPI\\TrademasterDataLoader\\coe_data.json"))
+using (StreamReader r = new StreamReader("C:\\Users\\atma_\\source\\repos\\PoETrademasterAPI\\TrademasterDataLoader\\poec_data.json"))
 {
     string json = r.ReadToEnd();
     deserialized = JsonSerializer.Deserialize<List<BaseJson>>(json);
@@ -293,11 +293,14 @@ using (var tagRepository = new TagRepository())
             AffixOriginId = int.Parse(affix.id_mgroup),
         });
 
-        affixGroupRepository.AddAffixGroup(new AffixGroupModel
+        if (affix.modgroup != null)
         {
-            AffixId = int.Parse(affix.id_modifier),
-            AffixGroupName = affix.modgroup
-        });
+            affixGroupRepository.AddAffixGroup(new AffixGroupModel
+            {
+                AffixId = int.Parse(affix.id_modifier),
+                AffixGroupName = affix.modgroup
+            }); 
+        }
 
         var mods = affix.modgroups.Substring(1, affix.modgroups.Length - 2)
             .Split(',')

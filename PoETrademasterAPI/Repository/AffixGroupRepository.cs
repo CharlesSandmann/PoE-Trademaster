@@ -8,12 +8,19 @@ namespace PoETrademasterAPI.Repository
     {
         public bool AddAffixGroup(AffixGroupModel affixGroupModel)
         {
-            var sqlParams = new List<SqlParameter>();
-            sqlParams.Add(new SqlParameter("@AffixId", affixGroupModel.AffixId));
-            sqlParams.Add(new SqlParameter("@AffixGroupName", affixGroupModel.AffixGroupName));
-            string sql = GeneratedProcString("dbo.AddAffixGroup", sqlParams);
-            int rowsAffected = _dbContext.Database.ExecuteSqlRaw(sql, sqlParams.ToArray());
-            return true;
+            try
+            {
+                var sqlParams = new List<SqlParameter>();
+                sqlParams.Add(new SqlParameter("@AffixId", affixGroupModel.AffixId));
+                sqlParams.Add(new SqlParameter("@AffixGroupName", affixGroupModel.AffixGroupName));
+                string sql = GeneratedProcString("dbo.AddAffixGroup", sqlParams);
+                int rowsAffected = _dbContext.Database.ExecuteSqlRaw(sql, sqlParams.ToArray());
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }
